@@ -1,0 +1,10 @@
+{
+  "name": "factorio-aircraft-antiaircraft",
+  "version": "1.0.0",
+  "title": "Aircraft & Anti-Aircraft",
+  "author": "YourName",
+  "homepage": "",
+  "description": "Adds flyable aircraft for the engineer with take-off and landing capabilities, plus anti-aircraft worms that can shoot down aircraft.",
+  "factorio_version": "2.0",
+  "dependencies": ["base >= 2.0.0"]
+}

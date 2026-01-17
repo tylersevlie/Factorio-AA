@@ -1,0 +1,20 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2026-01-16
+  Features:
+    - Initial release
+    - Added aircraft with take-off and landing mechanics
+    - Added three tiers of anti-aircraft worms (small, medium, big)
+    - Aircraft can fly over water and obstacles when airborne
+    - AA worms spawn naturally in enemy territory
+    - AA worms target and shoot down aircraft with homing rockets
+  Balance:
+    - Aircraft has 800 HP with 40% explosion resistance
+    - Aircraft requires 12 engines, 40 steel, 20 circuits, 15 gears
+    - Small AA worms deal 75 damage with 40 tile range
+    - Medium AA worms deal 125 damage with 50 tile range
+    - Big AA worms deal 175 damage with 60 tile range
+  Settings:
+    - Added setting for takeoff time (1-10 seconds)
+    - Added setting for AA worm spawn rate multiplier
+    - Added setting to enable/disable flight status messages
