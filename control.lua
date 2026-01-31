@@ -57,108 +57,105 @@ script.on_event(defines.events.on_player_mined_entity, on_entity_removed, {{filt
 script.on_event(defines.events.on_robot_mined_entity, on_entity_removed, {{filter = "name", name = "aircraft"}})
 script.on_event(defines.events.on_entity_died, on_entity_removed, {{filter = "name", name = "aircraft"}})
 
--- Aircraft flight mechanics
+-- Combined tick handler for aircraft flight mechanics and AA worm targeting
 script.on_event(defines.events.on_tick, function(event)
   -- Process aircraft every 10 ticks for performance
-  if event.tick % 10 ~= 0 then return end
+  if event.tick % 10 == 0 then
+    for unit_number, data in pairs(global.aircraft_data) do
+      local aircraft = data.entity
 
-  for unit_number, data in pairs(global.aircraft_data) do
-    local aircraft = data.entity
+      -- Validate aircraft still exists
+      if not aircraft or not aircraft.valid then
+        global.aircraft_data[unit_number] = nil
+        goto continue
+      end
 
-    -- Validate aircraft still exists
-    if not aircraft or not aircraft.valid then
-      global.aircraft_data[unit_number] = nil
-      goto continue
-    end
+      -- Check if aircraft has a driver
+      local driver = aircraft.get_driver()
 
-    -- Check if aircraft has a driver
-    local driver = aircraft.get_driver()
+      if driver then
+        -- Aircraft is being driven - simulate flight
+        local speed = aircraft.speed
 
-    if driver then
-      -- Aircraft is being driven - simulate flight
-      local speed = aircraft.speed
+        -- Take-off mechanics
+        if speed > 0.1 and not data.is_flying then
+          data.takeoff_time = data.takeoff_time + 1
 
-      -- Take-off mechanics
-      if speed > 0.1 and not data.is_flying then
-        data.takeoff_time = data.takeoff_time + 1
+          -- Check takeoff time from settings
+          local takeoff_seconds = settings.global["aircraft-aa-takeoff-time"].value or 3.0
+          local takeoff_ticks = (takeoff_seconds * 60) / 10 -- Convert to tick intervals (checked every 10 ticks)
 
-        -- Check takeoff time from settings
-        local takeoff_seconds = settings.global["aircraft-aa-takeoff-time"].value or 3.0
-        local takeoff_ticks = (takeoff_seconds * 60) / 10 -- Convert to tick intervals (checked every 10 ticks)
+          if data.takeoff_time > takeoff_ticks then
+            data.is_flying = true
+            data.altitude = 10
 
-        if data.takeoff_time > takeoff_ticks then
-          data.is_flying = true
-          data.altitude = 10
+            -- Make aircraft immune to ground obstacles
+            aircraft.destructible = false
 
-          -- Make aircraft immune to ground obstacles
-          aircraft.destructible = false
+            -- Notify player
+            if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
+              driver.print("[Aircraft] Airborne!")
+            end
+          end
+        elseif speed < 0.05 and data.is_flying then
+          -- Landing mechanics
+          data.is_flying = false
+          data.altitude = 0
+          data.takeoff_time = 0
+          aircraft.destructible = true
 
           -- Notify player
           if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
-            driver.print("[Aircraft] Airborne!")
+            driver.print("[Aircraft] Landed!")
           end
         end
-      elseif speed < 0.05 and data.is_flying then
-        -- Landing mechanics
-        data.is_flying = false
-        data.altitude = 0
-        data.takeoff_time = 0
-        aircraft.destructible = true
 
-        -- Notify player
-        if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
-          driver.print("[Aircraft] Landed!")
+        -- Maintain flying state
+        if data.is_flying then
+          -- Aircraft can move over water and obstacles
+          aircraft.destructible = false
+        end
+      else
+        -- No driver - aircraft should land if flying
+        if data.is_flying then
+          data.is_flying = false
+          data.altitude = 0
+          data.takeoff_time = 0
+          aircraft.destructible = true
         end
       end
 
-      -- Maintain flying state
-      if data.is_flying then
-        -- Aircraft can move over water and obstacles
-        aircraft.destructible = false
-      end
-    else
-      -- No driver - aircraft should land if flying
-      if data.is_flying then
-        data.is_flying = false
-        data.altitude = 0
-        data.takeoff_time = 0
-        aircraft.destructible = true
-      end
+      ::continue::
     end
-
-    ::continue::
   end
-end)
 
--- AA Worm targeting enhancement for aircraft
-script.on_event(defines.events.on_tick, function(event)
-  -- Check every 60 ticks (1 second)
-  if event.tick % 60 ~= 0 then return end
+  -- AA Worm targeting enhancement for aircraft (every 60 ticks)
+  if event.tick % 60 == 0 then
+    -- Find all AA worms
+    for _, surface in pairs(game.surfaces) do
+      local aa_worms = surface.find_entities_filtered{
+        name = {"small-aa-worm-turret", "medium-aa-worm-turret", "big-aa-worm-turret"}
+      }
 
-  -- Find all AA worms
-  for _, surface in pairs(game.surfaces) do
-    local aa_worms = surface.find_entities_filtered{
-      name = {"small-aa-worm-turret", "medium-aa-worm-turret", "big-aa-worm-turret"}
-    }
+      for _, worm in pairs(aa_worms) do
+        if worm.valid then
+          -- Find nearby aircraft
+          local aircraft_nearby = surface.find_entities_filtered{
+            name = "aircraft",
+            position = worm.position,
+            radius = 50
+          }
 
-    for _, worm in pairs(aa_worms) do
-      if worm.valid then
-        -- Find nearby aircraft
-        local aircraft_nearby = surface.find_entities_filtered{
-          name = "aircraft",
-          position = worm.position,
-          radius = 50
-        }
-
-        -- Prioritize aircraft targets
-        for _, aircraft in pairs(aircraft_nearby) do
-          if aircraft.valid and aircraft.get_driver() then
-            -- Check if aircraft is flying
-            local aircraft_info = global.aircraft_data[aircraft.unit_number]
-            if aircraft_info and aircraft_info.is_flying then
-              -- Set aircraft as target if worm can attack
-              if worm.shooting_target == nil or worm.shooting_target.name ~= "aircraft" then
-                worm.shooting_target = aircraft
+          -- Prioritize aircraft targets
+          for _, aircraft in pairs(aircraft_nearby) do
+            if aircraft.valid and aircraft.get_driver() then
+              -- Check if aircraft is flying
+              local aircraft_info = global.aircraft_data[aircraft.unit_number]
+              if aircraft_info and aircraft_info.is_flying then
+                -- Set aircraft as target if worm can attack
+                if worm.shooting_target == nil or worm.shooting_target.name ~= "aircraft" then
+                  worm.shooting_target = aircraft
+                end
               end
             end
           end

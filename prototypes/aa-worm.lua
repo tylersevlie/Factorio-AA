@@ -171,34 +171,6 @@ local big_aa_projectile = {
   }
 }
 
--- AA Worm ammo
-local aa_ammo = {
-  type = "ammo",
-  name = "aa-worm-ammo",
-  icon = "__base__/graphics/icons/rocket.png",
-  icon_size = 64,
-  flags = {"hidden"},
-  ammo_category = "aa-rocket",
-  ammo_type = {
-    category = "aa-rocket",
-    target_type = "position",
-    action = {
-      type = "direct",
-      action_delivery = {
-        type = "projectile",
-        projectile = "aa-worm-projectile",
-        starting_speed = 0.1,
-        max_range = 40,
-        source_effects = {
-          type = "create-explosion",
-          entity_name = "explosion-gunshot"
-        }
-      }
-    }
-  },
-  stack_size = 200
-}
-
 -- Small AA Worm
 local small_aa_worm = {
   type = "turret",
@@ -265,7 +237,6 @@ local small_aa_worm = {
   shoot_in_prepare_state = false,
   attack_parameters = {
     type = "projectile",
-    ammo_category = "aa-rocket",
     cooldown = 120, -- 2 seconds between shots
     damage_modifier = 1,
     projectile_center = {0, 0},
@@ -284,7 +255,7 @@ local small_aa_worm = {
     },
     ammo_type = {
       category = "aa-rocket",
-      target_type = "position",
+      target_type = "entity",
       action = {
         type = "direct",
         action_delivery = {
@@ -358,7 +329,6 @@ data:extend({
   small_aa_projectile,
   medium_aa_projectile,
   big_aa_projectile,
-  aa_ammo,
   small_aa_worm,
   medium_aa_worm,
   big_aa_worm
