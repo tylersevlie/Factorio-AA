@@ -237,6 +237,7 @@ local small_aa_worm = {
   shoot_in_prepare_state = false,
   attack_parameters = {
     type = "projectile",
+    ammo_category = "aa-rocket",
     cooldown = 120, -- 2 seconds between shots
     damage_modifier = 1,
     projectile_center = {0, 0},
