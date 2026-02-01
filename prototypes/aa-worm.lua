@@ -204,6 +204,17 @@ local small_aa_worm = {
   shooting_cursor_size = 4,
   rotation_speed = 0.008,
   corpse = "small-worm-corpse",
+  folded_speed = 0.01,
+  folded_speed_secondary = 0.024,
+  preparing_speed = 0.024,
+  prepared_speed = 0.024,
+  prepared_speed_secondary = 0.012,
+  prepared_alternative_speed = 0.014,
+  prepared_alternative_speed_secondary = 0.010,
+  prepared_alternative_chance = 0.2,
+  starting_attack_speed = 0.034,
+  ending_attack_speed = 0.016,
+  folding_speed = 0.015,
   dying_explosion = "blood-explosion-huge",
   dying_sound = {
     {
@@ -215,21 +226,101 @@ local small_aa_worm = {
       volume = 0.5
     }
   },
-  graphics_set = {
-    base_visualisation = {
-      animation = {
-        layers = {
-          {
-            filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
-            line_length = 1,
-            width = 128,
-            height = 128,
-            frame_count = 1,
-            direction_count = 1,
-            shift = {0, 0},
-            scale = 0.8
-          }
-        }
+  folded_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  preparing_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  prepared_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  prepared_alternative_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  starting_attack_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  ending_attack_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
+      }
+    }
+  },
+  folding_animation = {
+    layers = {
+      {
+        filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+        line_length = 1,
+        width = 128,
+        height = 128,
+        frame_count = 1,
+        direction_count = 1,
+        shift = {0, 0},
+        scale = 0.8
       }
     }
   },
