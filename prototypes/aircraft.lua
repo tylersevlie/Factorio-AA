@@ -168,7 +168,6 @@ local aircraft_gun = {
   name = "aircraft-gun",
   icon = "__base__/graphics/icons/submachine-gun.png",
   icon_size = 64,
-  flags = {"hidden"},
   subgroup = "gun",
   order = "a[basic-clips]-b[aircraft-gun]",
   attack_parameters = {
