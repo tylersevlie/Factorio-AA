@@ -324,6 +324,24 @@ local small_aa_worm = {
       }
     }
   },
+  graphics_set = {
+    base_visualisation = {
+      animation = {
+        layers = {
+          {
+            filename = "__factorio-aircraft-antiaircraft__/graphics/aa-worm/aa-worm.png",
+            line_length = 1,
+            width = 128,
+            height = 128,
+            frame_count = 1,
+            direction_count = 1,
+            shift = {0, 0},
+            scale = 0.8
+          }
+        }
+      }
+    }
+  },
   prepare_range = 38,
   shoot_in_prepare_state = false,
   attack_parameters = {
