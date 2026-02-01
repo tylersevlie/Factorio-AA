@@ -11,7 +11,7 @@ local aircraft_tech = {
       recipe = "aircraft"
     }
   },
-  prerequisites = {"automobilism", "advanced-electronics"},
+  prerequisites = {"automobilism", "electronics"},
   unit = {
     count = 200,
     ingredients = {
