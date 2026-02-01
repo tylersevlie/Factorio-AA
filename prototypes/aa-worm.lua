@@ -216,16 +216,6 @@ local small_aa_worm = {
   ending_attack_speed = 0.016,
   folding_speed = 0.015,
   dying_explosion = "blood-explosion-huge",
-  dying_sound = {
-    {
-      filename = "__base__/sound/creatures/worm-dying-1.ogg",
-      volume = 0.5
-    },
-    {
-      filename = "__base__/sound/creatures/worm-dying-2.ogg",
-      volume = 0.5
-    }
-  },
   folded_animation = {
     layers = {
       {
@@ -354,14 +344,8 @@ local small_aa_worm = {
     range = 40,
     min_range = 0,
     sound = {
-      {
-        filename = "__base__/sound/fight/worm-roar-1.ogg",
-        volume = 0.6
-      },
-      {
-        filename = "__base__/sound/fight/worm-roar-2.ogg",
-        volume = 0.6
-      }
+      filename = "__base__/sound/fight/rocket-launcher.ogg",
+      volume = 0.5
     },
     ammo_type = {
       category = "aa-rocket",
