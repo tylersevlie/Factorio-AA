@@ -25,7 +25,7 @@ local aircraft_entity = {
   crash_trigger = {
     type = "play-sound",
     sound = {
-      filename = "__base__/sound/car-crash.ogg",
+      filename = "__base__/sound/fight/medium-explosion.ogg",
       volume = 0.5
     }
   },
@@ -121,38 +121,30 @@ local aircraft_entity = {
     }
   },
   stop_trigger_speed = 0.2,
-  stop_trigger = {
-    {
-      type = "play-sound",
-      sound = {
-        filename = "__base__/sound/fight/tank-brakes.ogg",
-        volume = 0.3
-      }
-    }
-  },
+  stop_trigger = {},
   sound_minimum_speed = 0.15,
   sound_scaling_ratio = 0.8,
   vehicle_impact_sound = {
-    filename = "__base__/sound/car-metal-impact.ogg",
+    filename = "__base__/sound/fight/impact-with-damage-1.ogg",
     volume = 0.65
   },
   working_sound = {
     sound = {
-      filename = "__base__/sound/car-engine.ogg",
+      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
       volume = 0.4
     },
     activate_sound = {
-      filename = "__base__/sound/car-engine-start.ogg",
-      volume = 0.4
+      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
+      volume = 0.3
     },
     deactivate_sound = {
-      filename = "__base__/sound/car-engine-stop.ogg",
-      volume = 0.4
+      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
+      volume = 0.2
     },
     match_speed_to_activity = true
   },
-  open_sound = {filename = "__base__/sound/car-door-open.ogg", volume = 0.7},
-  close_sound = {filename = "__base__/sound/car-door-close.ogg", volume = 0.7},
+  open_sound = {filename = "__core__/sound/gui-click.ogg", volume = 0.5},
+  close_sound = {filename = "__core__/sound/gui-click.ogg", volume = 0.5},
   rotation_speed = 0.015,
   weight = 700,
   inventory_size = 60,
@@ -178,7 +170,7 @@ local aircraft_gun = {
     projectile_creation_distance = 0.6,
     range = 25,
     sound = {
-      filename = "__base__/sound/gunshot.ogg",
+      filename = "__base__/sound/fight/light-gunshot-1.ogg",
       volume = 0.5
     }
   },
