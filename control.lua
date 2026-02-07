@@ -1,15 +1,16 @@
 -- Control script for Aircraft & Anti-Aircraft mod
 
--- Global table to track aircraft states
-local aircraft_data = {}
-
--- Initialize mod
+-- Initialize mod data
 script.on_init(function()
-  global.aircraft_data = {}
+  storage = storage or {}
+  storage.aircraft_data = {}
+  storage.aa_worms = {}
 end)
 
-script.on_load(function()
-  aircraft_data = global.aircraft_data or {}
+script.on_configuration_changed(function()
+  storage = storage or {}
+  storage.aircraft_data = storage.aircraft_data or {}
+  storage.aa_worms = storage.aa_worms or {}
 end)
 
 -- Handle aircraft creation
@@ -19,7 +20,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 
   if entity.name == "aircraft" then
     -- Initialize aircraft data
-    global.aircraft_data[entity.unit_number] = {
+    storage.aircraft_data[entity.unit_number] = {
       entity = entity,
       altitude = 0,
       is_flying = false,
@@ -34,7 +35,7 @@ script.on_event(defines.events.on_robot_built_entity, function(event)
   if not entity or not entity.valid then return end
 
   if entity.name == "aircraft" then
-    global.aircraft_data[entity.unit_number] = {
+    storage.aircraft_data[entity.unit_number] = {
       entity = entity,
       altitude = 0,
       is_flying = false,
@@ -49,7 +50,7 @@ local function on_entity_removed(event)
   if not entity or not entity.valid then return end
 
   if entity.name == "aircraft" then
-    global.aircraft_data[entity.unit_number] = nil
+    storage.aircraft_data[entity.unit_number] = nil
   end
 end
 
@@ -61,12 +62,12 @@ script.on_event(defines.events.on_entity_died, on_entity_removed, {{filter = "na
 script.on_event(defines.events.on_tick, function(event)
   -- Process aircraft every 10 ticks for performance
   if event.tick % 10 == 0 then
-    for unit_number, data in pairs(global.aircraft_data) do
+    for unit_number, data in pairs(storage.aircraft_data) do
       local aircraft = data.entity
 
       -- Validate aircraft still exists
       if not aircraft or not aircraft.valid then
-        global.aircraft_data[unit_number] = nil
+        storage.aircraft_data[unit_number] = nil
         goto continue
       end
 
@@ -150,7 +151,7 @@ script.on_event(defines.events.on_tick, function(event)
           for _, aircraft in pairs(aircraft_nearby) do
             if aircraft.valid and aircraft.get_driver() then
               -- Check if aircraft is flying
-              local aircraft_info = global.aircraft_data[aircraft.unit_number]
+              local aircraft_info = storage.aircraft_data[aircraft.unit_number]
               if aircraft_info and aircraft_info.is_flying then
                 -- Set aircraft as target if worm can attack
                 if worm.shooting_target == nil or worm.shooting_target.name ~= "aircraft" then
@@ -203,15 +204,15 @@ end, {{filter = "name", name = "aircraft"}})
 -- Remote interface for other mods to interact
 remote.add_interface("aircraft_aa", {
   get_aircraft_altitude = function(unit_number)
-    if global.aircraft_data[unit_number] then
-      return global.aircraft_data[unit_number].altitude
+    if storage.aircraft_data[unit_number] then
+      return storage.aircraft_data[unit_number].altitude
     end
     return 0
   end,
 
   is_aircraft_flying = function(unit_number)
-    if global.aircraft_data[unit_number] then
-      return global.aircraft_data[unit_number].is_flying
+    if storage.aircraft_data[unit_number] then
+      return storage.aircraft_data[unit_number].is_flying
     end
     return false
   end
