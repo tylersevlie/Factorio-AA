@@ -73,6 +73,7 @@ script.on_event(defines.events.on_tick, function(event)
 
       -- Check if aircraft has a driver
       local driver = aircraft.get_driver()
+      local player = driver and driver.player
 
       if driver then
         -- Aircraft is being driven - simulate flight
@@ -94,8 +95,8 @@ script.on_event(defines.events.on_tick, function(event)
             aircraft.destructible = false
 
             -- Notify player
-            if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
-              driver.print("[Aircraft] Airborne!")
+            if player and player.valid and settings.get_player_settings(player)["aircraft-aa-enable-flight-messages"].value then
+              player.print("[Aircraft] Airborne!")
             end
           end
         elseif speed < 0.05 and data.is_flying then
@@ -106,8 +107,8 @@ script.on_event(defines.events.on_tick, function(event)
           aircraft.destructible = true
 
           -- Notify player
-          if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
-            driver.print("[Aircraft] Landed!")
+          if player and player.valid and settings.get_player_settings(player)["aircraft-aa-enable-flight-messages"].value then
+            player.print("[Aircraft] Landed!")
           end
         end
 
