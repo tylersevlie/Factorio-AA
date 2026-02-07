@@ -80,20 +80,12 @@ local medium_aa_projectile = {
   light = {intensity = 0.6, size = 5},
   animation = {
     filename = "__base__/graphics/entity/rocket/rocket.png",
-    frame_count = 8,
-    line_length = 8,
-    width = 9,
-    height = 35,
+    frame_count = 1,
+    line_length = 1,
+    width = 20,
+    height = 60,
     shift = {0, 0},
     priority = "high"
-  },
-  shadow = {
-    filename = "__base__/graphics/entity/rocket/rocket-shadow.png",
-    frame_count = 1,
-    width = 7,
-    height = 24,
-    priority = "high",
-    shift = {0, 0}
   },
   smoke = {
     {
