@@ -343,10 +343,6 @@ local small_aa_worm = {
     projectile_creation_distance = 1.5,
     range = 40,
     min_range = 0,
-    sound = {
-      filename = "__base__/sound/fight/rocket-launcher.ogg",
-      volume = 0.5
-    },
     ammo_type = {
       category = "aa-rocket",
       target_type = "entity",

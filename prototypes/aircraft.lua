@@ -22,13 +22,6 @@ local aircraft_entity = {
   corpse = "medium-remnants",
   dying_explosion = "medium-explosion",
   energy_per_hit_point = 0.8,
-  crash_trigger = {
-    type = "play-sound",
-    sound = {
-      filename = "__base__/sound/fight/medium-explosion.ogg",
-      volume = 0.5
-    }
-  },
   resistances = {
     {
       type = "fire",
@@ -120,29 +113,6 @@ local aircraft_entity = {
       }
     }
   },
-  sound_minimum_speed = 0.15,
-  sound_scaling_ratio = 0.8,
-  vehicle_impact_sound = {
-    filename = "__base__/sound/fight/impact-with-damage-1.ogg",
-    volume = 0.65
-  },
-  working_sound = {
-    sound = {
-      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
-      volume = 0.4
-    },
-    activate_sound = {
-      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
-      volume = 0.3
-    },
-    deactivate_sound = {
-      filename = "__base__/sound/programmable-speaker/car-engine.ogg",
-      volume = 0.2
-    },
-    match_speed_to_activity = true
-  },
-  open_sound = {filename = "__core__/sound/gui-click.ogg", volume = 0.5},
-  close_sound = {filename = "__core__/sound/gui-click.ogg", volume = 0.5},
   rotation_speed = 0.015,
   weight = 700,
   inventory_size = 60,
@@ -166,11 +136,7 @@ local aircraft_gun = {
     cooldown = 6,
     movement_slow_down_factor = 0.5,
     projectile_creation_distance = 0.6,
-    range = 25,
-    sound = {
-      filename = "__base__/sound/fight/light-gunshot-1.ogg",
-      volume = 0.5
-    }
+    range = 25
   },
   stack_size = 1
 }
