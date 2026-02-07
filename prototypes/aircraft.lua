@@ -120,8 +120,6 @@ local aircraft_entity = {
       }
     }
   },
-  stop_trigger_speed = 0.2,
-  stop_trigger = {},
   sound_minimum_speed = 0.15,
   sound_scaling_ratio = 0.8,
   vehicle_impact_sound = {
