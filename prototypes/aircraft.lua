@@ -46,6 +46,7 @@ local aircraft_entity = {
   },
   collision_box = {{-0.9, -0.9}, {0.9, 0.9}},
   selection_box = {{-0.9, -0.9}, {0.9, 0.9}},
+  collision_mask = {layers={}}, -- No collision with terrain, allowing flight over water and obstacles
   drawing_box = {{-1.5, -2}, {1.5, 1.5}},
   effectivity = 0.6,
   braking_power = "400kW",

@@ -181,8 +181,9 @@ script.on_event(defines.events.on_entity_damaged, function(event)
          cause.name == "big-aa-worm-turret" then
 
         local driver = entity.get_driver()
-        if driver and driver.valid and settings.get_player_settings(driver)["aircraft-aa-enable-flight-messages"].value then
-          driver.print("[Warning] Aircraft taking AA fire!")
+        local player = driver and driver.player
+        if player and player.valid and settings.get_player_settings(player)["aircraft-aa-enable-flight-messages"].value then
+          player.print("[Warning] Aircraft taking AA fire!")
         end
 
         -- Check if aircraft is destroyed
@@ -193,8 +194,8 @@ script.on_event(defines.events.on_entity_damaged, function(event)
             position = entity.position
           }
 
-          if driver and driver.valid then
-            driver.print("[Aircraft] Aircraft destroyed!")
+          if player and player.valid then
+            player.print("[Aircraft] Aircraft destroyed!")
           end
         end
       end
