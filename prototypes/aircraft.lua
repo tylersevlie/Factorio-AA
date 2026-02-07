@@ -106,8 +106,8 @@ local aircraft_entity = {
         stripes = {
           {
             filename = "__factorio-aircraft-antiaircraft__/graphics/aircraft/aircraft.png",
-            width_in_frames = 1,
-            height_in_frames = 64
+            width_in_frames = 8,
+            height_in_frames = 8
           }
         }
       }
